@@ -50,8 +50,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 
 
-	//shared_ptr<HistShotBoundaryDetector> ptrFrame = make_shared<HistShotBoundaryDetector>( cv::Rect(350,100,75,75) );
-	shared_ptr<SURFFeatureTrackerCPU> ptrFrame = make_shared<SURFFeatureTrackerCPU>( cv::Rect(350,100,75,75), 3 );
+	shared_ptr<HistShotBoundaryDetector> ptrFrame = make_shared<HistShotBoundaryDetector>( cv::Rect(350,100,75,75) );
+	//shared_ptr<SURFFeatureTrackerCPU> ptrFrame = make_shared<SURFFeatureTrackerCPU>( cv::Rect(350,100,75,75), 3 );
 	//shared_ptr<StrongCornersFeatureTrackerGPU> ptrFrame = make_shared<StrongCornersFeatureTrackerGPU>( cv::Rect(350,100,75,75), 3 );
 	shared_ptr<UserInterfaceSimpleAnchor> ui = make_shared<UserInterfaceSimpleAnchor>( ptrFrame );
 	shared_ptr<SingleFeatureTrackerCtrl> singleFeatureTrackerCtrl = make_shared<SingleFeatureTrackerCtrl>( ptrFrame, ui );
