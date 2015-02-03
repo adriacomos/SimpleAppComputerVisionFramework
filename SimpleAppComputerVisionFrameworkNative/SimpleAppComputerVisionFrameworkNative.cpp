@@ -7,6 +7,7 @@
 
 #include <memory>
 #include <iostream>
+#include <iomanip>
 #include <string>
 
 using namespace std;
@@ -15,8 +16,38 @@ using namespace cvf;
 #include "StrongCornersFeatureTrackerGPU.h"
 #include "UserInterfaceSimpleAnchor.h"
 #include "SingleFeatureTrackerCtrl.h"
+#include "SingleFeatureTrackerSBDCtrl.h"
 #include "SURFFeatureTrackerCPU.h"
 #include "HistShotBoundaryDetector.h"
+
+
+void initSingleTracker( cvf::ComputerVisionManager &cm )
+{
+	shared_ptr<SURFFeatureTrackerCPU> ptrFrame = make_shared<SURFFeatureTrackerCPU>( cv::Rect(350,100,75,75), 3 );
+	//shared_ptr<StrongCornersFeatureTrackerGPU> ptrFrame = make_shared<StrongCornersFeatureTrackerGPU>( cv::Rect(350,100,75,75), 3 );
+	shared_ptr<SingleFeatureTrackerCtrl> singleFeatureTrackerCtrl = make_shared<SingleFeatureTrackerCtrl>( ptrFrame );
+	shared_ptr<UserInterfaceSimpleAnchor> ui = make_shared<UserInterfaceSimpleAnchor>( singleFeatureTrackerCtrl );
+	singleFeatureTrackerCtrl->setInterface(ui),
+
+	cm.setFrameProcessorCtrl( singleFeatureTrackerCtrl );
+
+	cout << "SBD inactive" << endl;
+}
+
+void initSingleTrackerWSBD( cvf::ComputerVisionManager &cm, double changeShotThreshold )
+{
+	shared_ptr<SURFFeatureTrackerCPU> ptrFrame = make_shared<SURFFeatureTrackerCPU>( cv::Rect(350,100,75,75), 3 );
+	//shared_ptr<StrongCornersFeatureTrackerGPU> ptrFrame = make_shared<StrongCornersFeatureTrackerGPU>( cv::Rect(350,100,75,75), 3 );
+	shared_ptr<SingleFeatureTrackerSBDCtrl> singleFeatureTrackerCtrl = make_shared<SingleFeatureTrackerSBDCtrl>( ptrFrame, changeShotThreshold );
+	shared_ptr<UserInterfaceSimpleAnchor> ui = make_shared<UserInterfaceSimpleAnchor>( singleFeatureTrackerCtrl );
+	singleFeatureTrackerCtrl->setInterface(ui),
+		
+	cm.setFrameProcessorCtrl( singleFeatureTrackerCtrl );
+
+	cout << "SBD Active with threshold: " << fixed << setprecision(2) << changeShotThreshold << endl;
+
+}
+
 
 
 
@@ -24,7 +55,9 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	int device = 0;
 	string fileName = "MotoGPSlowMotion.avi";
-	bool bFromFile = true;;
+	bool bFromFile = true;
+	bool bSBD = false;
+	double SBDThreshold = 0.2;
 
 	for (int i = 0; i < argc; i++) {
 		std::wstring ws = argv[i];
@@ -47,20 +80,26 @@ int _tmain(int argc, _TCHAR* argv[])
 			}
 		}
 
+		if (ws == _T("-sbd"))		{
+			bSBD = true;
+
+			i++;
+			if (i < argc) {
+				ws = argv[i];
+				SBDThreshold = stod( ws );
+			}
+		}
 	}
 
-
-	shared_ptr<HistShotBoundaryDetector> ptrFrame = make_shared<HistShotBoundaryDetector>( cv::Rect(350,100,75,75) );
-	//shared_ptr<SURFFeatureTrackerCPU> ptrFrame = make_shared<SURFFeatureTrackerCPU>( cv::Rect(350,100,75,75), 3 );
-	//shared_ptr<StrongCornersFeatureTrackerGPU> ptrFrame = make_shared<StrongCornersFeatureTrackerGPU>( cv::Rect(350,100,75,75), 3 );
-	shared_ptr<UserInterfaceSimpleAnchor> ui = make_shared<UserInterfaceSimpleAnchor>( ptrFrame );
-	shared_ptr<SingleFeatureTrackerCtrl> singleFeatureTrackerCtrl = make_shared<SingleFeatureTrackerCtrl>( ptrFrame, ui );
-	
-	
 	cvf::ComputerVisionManager cm;
 
-	cm.setFrameProcessorCtrl( singleFeatureTrackerCtrl );
+	if (bSBD)
+		initSingleTrackerWSBD( cm, SBDThreshold );
+	else
+		initSingleTracker( cm );
 
+	
+	
 	if (bFromFile) {
 		cm.startVideoProcessorFromFile(fileName);
 	}
