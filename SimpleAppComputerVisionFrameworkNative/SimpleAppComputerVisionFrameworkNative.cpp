@@ -101,10 +101,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	
 	
 	if (bFromFile) {
-		cm.startVideoProcessorFromFile(fileName);
+		cm.startVideoProcessorFromFile(fileName, false, cv::Size(0,0));
 	}
 	else {
-		cm.startVideoProcessorFromDevice(device);
+		cm.startVideoProcessorFromDevice(device, false, cv::Size(0,0));
 	}
 	
 	cm.join();
