@@ -13,6 +13,7 @@
 using namespace std;
 using namespace cvf;
 
+#include "StrongCornersFeatureTrackerGPUv2.h"
 #include "StrongCornersFeatureTrackerGPU.h"
 #include "UserInterfaceSimpleAnchor.h"
 #include "SingleFeatureTrackerCtrl.h"
@@ -24,7 +25,7 @@ using namespace cvf;
 void initSingleTracker( cvf::ComputerVisionManager &cm )
 {
 	//shared_ptr<SURFFeatureTrackerCPU> ptrFrame = make_shared<SURFFeatureTrackerCPU>( cv::Rect(350,100,75,75), 3 );
-	shared_ptr<StrongCornersFeatureTrackerGPU> ptrFrame = make_shared<StrongCornersFeatureTrackerGPU>( cv::Rect(350,100,75,75), 3 );
+	shared_ptr<StrongCornersFeatureTrackerGPUv2> ptrFrame = make_shared<StrongCornersFeatureTrackerGPUv2>( cv::Rect(350,100,75,75), 3 );
 	shared_ptr<SingleFeatureTrackerCtrl> singleFeatureTrackerCtrl = make_shared<SingleFeatureTrackerCtrl>( ptrFrame );
 	shared_ptr<UserInterfaceSimpleAnchor> ui = make_shared<UserInterfaceSimpleAnchor>( singleFeatureTrackerCtrl );
 	singleFeatureTrackerCtrl->setInterface(ui),
@@ -37,7 +38,7 @@ void initSingleTracker( cvf::ComputerVisionManager &cm )
 void initSingleTrackerWSBD( cvf::ComputerVisionManager &cm, double changeShotThreshold )
 {
 	//shared_ptr<SURFFeatureTrackerCPU> ptrFrame = make_shared<SURFFeatureTrackerCPU>( cv::Rect(350,100,75,75), 3 );
-	shared_ptr<StrongCornersFeatureTrackerGPU> ptrFrame = make_shared<StrongCornersFeatureTrackerGPU>( cv::Rect(350,100,75,75), 3 );
+	shared_ptr<StrongCornersFeatureTrackerGPUv2> ptrFrame = make_shared<StrongCornersFeatureTrackerGPUv2>( cv::Rect(350,100,75,75), 3 );
 	shared_ptr<SingleFeatureTrackerSBDCtrl> singleFeatureTrackerCtrl = make_shared<SingleFeatureTrackerSBDCtrl>( ptrFrame, changeShotThreshold );
 	shared_ptr<UserInterfaceSimpleAnchor> ui = make_shared<UserInterfaceSimpleAnchor>( singleFeatureTrackerCtrl );
 	singleFeatureTrackerCtrl->setInterface(ui),
