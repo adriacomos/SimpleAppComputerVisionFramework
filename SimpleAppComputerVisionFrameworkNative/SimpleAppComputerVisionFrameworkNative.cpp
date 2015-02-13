@@ -25,7 +25,7 @@ using namespace cvf;
 void initSingleTracker( cvf::ComputerVisionManager &cm )
 {
 	//shared_ptr<SURFFeatureTrackerCPU> ptrFrame = make_shared<SURFFeatureTrackerCPU>( cv::Rect(350,100,75,75), 3 );
-	shared_ptr<StrongCornersFeatureTrackerGPUv2> ptrFrame = make_shared<StrongCornersFeatureTrackerGPUv2>( cv::Rect(350,100,75,75), 3 );
+	shared_ptr<StrongCornersFeatureTrackerGPUv2> ptrFrame = make_shared<StrongCornersFeatureTrackerGPUv2>( cv::Rect(350,100,20,20), 3 );
 	shared_ptr<SingleFeatureTrackerCtrl> singleFeatureTrackerCtrl = make_shared<SingleFeatureTrackerCtrl>( ptrFrame );
 	shared_ptr<UserInterfaceSimpleAnchor> ui = make_shared<UserInterfaceSimpleAnchor>( singleFeatureTrackerCtrl );
 	singleFeatureTrackerCtrl->setInterface(ui),
@@ -38,7 +38,7 @@ void initSingleTracker( cvf::ComputerVisionManager &cm )
 void initSingleTrackerWSBD( cvf::ComputerVisionManager &cm, double changeShotThreshold )
 {
 	//shared_ptr<SURFFeatureTrackerCPU> ptrFrame = make_shared<SURFFeatureTrackerCPU>( cv::Rect(350,100,75,75), 3 );
-	shared_ptr<StrongCornersFeatureTrackerGPUv2> ptrFrame = make_shared<StrongCornersFeatureTrackerGPUv2>( cv::Rect(350,100,75,75), 3 );
+	shared_ptr<StrongCornersFeatureTrackerGPUv2> ptrFrame = make_shared<StrongCornersFeatureTrackerGPUv2>( cv::Rect(350,100,20,20), 3 );
 	shared_ptr<SingleFeatureTrackerSBDCtrl> singleFeatureTrackerCtrl = make_shared<SingleFeatureTrackerSBDCtrl>( ptrFrame, changeShotThreshold );
 	shared_ptr<UserInterfaceSimpleAnchor> ui = make_shared<UserInterfaceSimpleAnchor>( singleFeatureTrackerCtrl );
 	singleFeatureTrackerCtrl->setInterface(ui),
@@ -55,7 +55,7 @@ void initSingleTrackerWSBD( cvf::ComputerVisionManager &cm, double changeShotThr
 int _tmain(int argc, _TCHAR* argv[])
 {
 	int device = 0;
-	string fileName = "MotoGPSlowMotion.avi";
+	string fileName = "2014_07_CAT_HELI_LASTLAP.mov";
 	bool bFromFile = true;
 	bool bSBD = false;
 	double SBDThreshold = 0.5;
