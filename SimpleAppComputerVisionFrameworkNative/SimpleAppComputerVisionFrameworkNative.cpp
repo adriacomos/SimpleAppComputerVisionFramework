@@ -21,6 +21,9 @@ using namespace cvf;
 #include "SURFFeatureTrackerCPU.h"
 #include "HistShotBoundaryDetector.h"
 
+#include "FeatureTrackerFactory.h"
+#include "IFrameProcessorCtrl.h"
+
 
 void initSingleTracker( cvf::ComputerVisionManager &cm )
 {
@@ -48,6 +51,17 @@ void initSingleTrackerWSBD( cvf::ComputerVisionManager &cm, double changeShotThr
 	cout << "SBD Active with threshold: " << fixed << setprecision(2) << changeShotThreshold << endl;
 
 }
+
+void initFFTTracker( cvf::ComputerVisionManager &cm )
+{
+	shared_ptr<IFrameProcessorCtrl> singleFeatureTrackerCtrl = FeatureTrackerFactory::createFFTMatcherTracker( GPU, cv::Rect(350,100,30,30), false, 0 );
+		
+	cm.setFrameProcessorCtrl( singleFeatureTrackerCtrl );
+
+	cout << "SBD inactive" << endl;
+
+}
+
 
 
 
@@ -94,10 +108,14 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	cvf::ComputerVisionManager cm;
 
+	/*
 	if (bSBD)
 		initSingleTrackerWSBD( cm, SBDThreshold );
 	else
 		initSingleTracker( cm );
+	*/
+	initFFTTracker( cm );
+	
 
 	
 	
