@@ -54,10 +54,10 @@ void initSingleTrackerWSBD( cvf::ComputerVisionManager &cm, double changeShotThr
 
 void initFFTTracker( cvf::ComputerVisionManager &cm )
 {
-	shared_ptr<IFrameProcessorCtrl> singleFeatureTrackerCtrl = FeatureTrackerFactory::createFFTMatcherTracker( GPU, cv::Rect(350,100,30,30), false, 0 );
-		
+	shared_ptr<IFrameProcessorCtrl> singleFeatureTrackerCtrl = FeatureTrackerFactory::createFFTMatcherTracker( GPU, cv::Rect(350,200,60,60), false, 0 );
+	
 	cm.setFrameProcessorCtrl( singleFeatureTrackerCtrl );
-
+	
 	cout << "SBD inactive" << endl;
 
 }

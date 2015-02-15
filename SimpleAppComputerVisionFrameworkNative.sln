@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Express 2012 for Windows Desktop
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleAppComputerVisionFrameworkNative", "SimpleAppComputerVisionFrameworkNative\SimpleAppComputerVisionFrameworkNative.vcxproj", "{ADD17417-638E-4AF7-A611-D4582EEF1B08}"
 	ProjectSection(ProjectDependencies) = postProject
 		{477DFD06-1C4D-4A3B-A29C-AC011BA7F687} = {477DFD06-1C4D-4A3B-A29C-AC011BA7F687}
@@ -9,6 +9,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ComputerVisionFrameworkNative", "..\VAS\ComputerVisionFrameworkNative\ComputerVisionFrameworkNative.vcxproj", "{477DFD06-1C4D-4A3B-A29C-AC011BA7F687}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ComputerVisionFrameworkNativeTest", "ComputerVisionFrameworkNativeTest\ComputerVisionFrameworkNativeTest.vcxproj", "{0A353FC6-DE68-4B83-933E-56327ECC7259}"
+	ProjectSection(ProjectDependencies) = postProject
+		{477DFD06-1C4D-4A3B-A29C-AC011BA7F687} = {477DFD06-1C4D-4A3B-A29C-AC011BA7F687}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
