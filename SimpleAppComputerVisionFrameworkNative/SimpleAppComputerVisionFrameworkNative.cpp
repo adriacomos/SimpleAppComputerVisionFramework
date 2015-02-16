@@ -22,7 +22,7 @@ using namespace cvf;
 #include "HistShotBoundaryDetector.h"
 
 #include "FeatureTrackerFactory.h"
-#include "IFrameProcessorCtrl.h"
+#include "IFrameProcessor.h"
 
 
 void initSingleTracker( cvf::ComputerVisionManager &cm )
@@ -33,7 +33,7 @@ void initSingleTracker( cvf::ComputerVisionManager &cm )
 	shared_ptr<UserInterfaceSimpleAnchor> ui = make_shared<UserInterfaceSimpleAnchor>( singleFeatureTrackerCtrl );
 	singleFeatureTrackerCtrl->setInterface(ui),
 
-	cm.setFrameProcessorCtrl( singleFeatureTrackerCtrl );
+	cm.setFrameProcessor( singleFeatureTrackerCtrl );
 
 	cout << "SBD inactive" << endl;
 }
@@ -46,7 +46,7 @@ void initSingleTrackerWSBD( cvf::ComputerVisionManager &cm, double changeShotThr
 	shared_ptr<UserInterfaceSimpleAnchor> ui = make_shared<UserInterfaceSimpleAnchor>( singleFeatureTrackerCtrl );
 	singleFeatureTrackerCtrl->setInterface(ui),
 		
-	cm.setFrameProcessorCtrl( singleFeatureTrackerCtrl );
+	cm.setFrameProcessor( singleFeatureTrackerCtrl );
 
 	cout << "SBD Active with threshold: " << fixed << setprecision(2) << changeShotThreshold << endl;
 
@@ -54,9 +54,9 @@ void initSingleTrackerWSBD( cvf::ComputerVisionManager &cm, double changeShotThr
 
 void initFFTTracker( cvf::ComputerVisionManager &cm )
 {
-	shared_ptr<IFrameProcessorCtrl> singleFeatureTrackerCtrl = FeatureTrackerFactory::createFFTMatcherTracker( GPU, cv::Rect(350,200,30,30), false, 0 );
+	shared_ptr<IFrameProcessor> singleFeatureTrackerCtrl = FeatureTrackerFactory::createFFTMatcherTracker( CPU, cv::Rect(350,200,30,30), false, 0 );
 	
-	cm.setFrameProcessorCtrl( singleFeatureTrackerCtrl );
+	cm.setFrameProcessor( singleFeatureTrackerCtrl );
 	
 	cout << "SBD inactive" << endl;
 
@@ -123,7 +123,15 @@ int _tmain(int argc, _TCHAR* argv[])
 		cm.startVideoProcessorFromFile(fileName, false, cv::Size(0,0));
 	}
 	else {
-		cm.startVideoProcessorFromDevice(device, false, cv::Size(0,0));
+
+		ProcessorFromDeviceParams params;
+		params.CaptureFrameRate = 25.0;
+		params.CaptureFrameSize = cv::Size(1920,1080);
+		params.Device = device;
+		params.Resize = true;
+		params.WorkingFrameSize = cv::Size(960,540);
+
+		cm.startVideoProcessorFromDevice(params);
 	}
 	
 	cm.join();
