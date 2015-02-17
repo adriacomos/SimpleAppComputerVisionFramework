@@ -16,7 +16,7 @@ namespace ComputerVisionFrameworkNativeTest
 	{
 	public:
 		
-		TEST_METHOD(PathImproverFourLinealIncrAndOneZero_Test)
+		TEST_METHOD(PathImproverFourLinealIncr_Test)
 		{
 			PathImprover pi;
 			
@@ -24,14 +24,29 @@ namespace ComputerVisionFrameworkNativeTest
 			pi.addPoint( Point2f(1,1), 100 );
 			pi.addPoint( Point2f(2,2), 200 );
 			pi.addPoint( Point2f(3,3), 300 );
-			pi.addPoint( Point2f(3,3), 400 );
 
 			Point2f nextPt;
 
 			pi.getNextPoint( 400, nextPt );
 
-			Assert::AreEqual( nextPt.x, 3.25f, 0.0001f );
+			Assert::AreEqual( nextPt.x, 4.0f, 0.0001f );
 		}
+
+
+		TEST_METHOD(PathImproverTwoNonLinealIncr_Test)
+		{
+			PathImprover pi;
+			
+			pi.addPoint( Point2f(0,0), 0 );
+			pi.addPoint( Point2f(3,3), 300 );
+
+			Point2f nextPt;
+
+			pi.getNextPoint( 400, nextPt );
+
+			Assert::AreEqual( nextPt.x, 4.0f, 0.0001f );
+		}
+
 
 	};
 }
